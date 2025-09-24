@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html ng-app="escApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ServiceNow ESC Demo</title>
+    <script src="//code.angularjs.org/1.8.3/angular.min.js"></script>
+    <script src="//code.angularjs.org/1.8.3/angular-sanitize.min.js"></script>
+    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* Base styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            background: #f8f9fa;
+            color: #1c1e21;
+        }
+
+        /* Layout */
+        .sn-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sn-sidebar {
+            width: 280px;
+            background: white;
+            border-right: 1px solid #e5e5e5;
+            padding: 20px;
+        }
+
+        .sn-main {
+            flex: 1;
+            padding: 20px;
+        }
+
+        /* Header */
+        .sn-header {
+            background: white;
+            padding: 16px;
+            border-bottom: 1px solid #e5e5e5;
+            margin-bottom: 20px;
+        }
+
+        /* Navigation */
+        .sn-nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 4px;
+            color: #1c1e21;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .sn-nav-item:hover {
+            background: #f0f2f4;
+        }
+
+        .sn-nav-item.active {
+            background: #0070f3;
+            color: white;
+        }
+
+        .sn-nav-icon {
+            margin-right: 12px;
+        }
+
+        /* Cards */
+        .sn-card {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e5e5e5;
+            margin-bottom: 20px;
+        }
+
+        .sn-card-header {
+            padding: 16px;
+            border-bottom: 1px solid #e5e5e5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sn-card-content {
+            padding: 16px;
+        }
+
+        /* Grid */
+        .sn-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        /* Buttons */
+        .sn-button {
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .sn-button-primary {
+            background: #0070f3;
+            color: white;
+        }
+
+        .sn-button-secondary {
+            background: #f0f2f4;
+            color: #1c1e21;
+        }
+
+        /* Service Items */
+        .sn-service-item {
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .sn-service-icon {
+            font-size: 24px;
+            color: #0070f3;
+            margin-bottom: 12px;
+        }
+
+        .sn-service-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .sn-service-description {
+            font-size: 14px;
+            color: #65676b;
+            margin-bottom: 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sn-layout {
+                flex-direction: column;
+            }
+            .sn-sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e5e5e5;
+            }
+        }
+    </style>
+</head>
+<body ng-controller="MainCtrl">
+    <div class="sn-layout">
+        <!-- Sidebar -->
+        <nav class="sn-sidebar">
+            <div ng-repeat="item in menuItems" 
+                 class="sn-nav-item"
+                 ng-class="{active: item.active}">
+                <i class="material-icons sn-nav-icon">{{item.icon}}</i>
+                <span>{{item.title}}</span>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="sn-main">
+            <!-- Header -->
+            <div class="sn-header">
+                <h1>Service Catalog</h1>
+            </div>
+
+            <!-- Service Grid -->
+            <div class="sn-grid">
+                <div class="sn-service-item" ng-repeat="service in services">
+                    <i class="material-icons sn-service-icon">{{service.icon}}</i>
+                    <div class="sn-service-title">{{service.title}}</div>
+                    <div class="sn-service-description">{{service.description}}</div>
+                    <button class="sn-button sn-button-primary">Request</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        angular.module('escApp', ['ngSanitize'])
+            .controller('MainCtrl', function($scope) {
+                $scope.menuItems = [
+                    { title: 'Home', icon: 'home', active: true },
+                    { title: 'Service Catalog', icon: 'shopping_cart' },
+                    { title: 'My Requests', icon: 'list' },
+                    { title: 'Knowledge Base', icon: 'library_books' }
+                ];
+
+                $scope.services = [
+                    {
+                        title: 'Password Reset',
+                        description: 'Reset your network or application passwords',
+                        icon: 'lock'
+                    },
+                    {
+                        title: 'Software Request',
+                        description: 'Request new software installation',
+                        icon: 'computer'
+                    },
+                    {
+                        title: 'Hardware Request',
+                        description: 'Request new hardware or accessories',
+                        icon: 'devices'
+                    }
+                ];
+            });
+    </script>
+</body>
+</html>
